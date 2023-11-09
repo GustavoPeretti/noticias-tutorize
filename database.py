@@ -3,7 +3,7 @@ import dotenv
 
 env = dotenv.dotenv_values()
 
-def consultar(instrucao, argumentos):
+def consultar(instrucao, argumentos=[]):
     with pymysql.connect(
         host=env['BD_HOST'],
         user=env['BD_USER'],
