@@ -1,0 +1,47 @@
+#particles-js {
+    background-color: black;
+    width: 100%;
+    height: 100vh;
+}
+
+#container-banner {
+  width: 100%;
+  height: 100vh;
+}
+
+#particles-js {
+  position: absolute;
+}
+
+#container-banner #logo {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  align-items: center;
+}
+
+#container-banner img {
+  object-fit: contain;
+  width: 80%;
+  height: 80%;
+}
+
+@media (max-width: 650px) {
+  #container-banner #logo {
+    align-items: center;
+  }
+}
+
+@media (max-width: 725px) {
+  #container-banner .links li {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 1016px) {
+  #container-banner .links li {
+    padding-inline: 3%;
+  }
+}

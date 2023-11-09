@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from database import consultar
 
 app = Flask(__name__)
@@ -10,6 +10,23 @@ validacao = {
     'corpo': lambda x: type(x) == str,
     'autores': lambda x: type(x) == list and all([type(a) == int and consultar('SELECT 1 FROM autores WHERE id = %s;', (a,)) for a in x])
 }
+
+@app.route('/', methods=['GET'])
+def index():
+    return render_template('index.html')
+
+@app.route('/noticias', methods=['GET'])
+def noticias():
+    return render_template('index.html')
+
+@app.route('/autores', methods=['GET'])
+def autores():
+    return render_template('index.html')
+
+@app.route('/imagens', methods=['GET'])
+def imagens():
+    return render_template('index.html')
+
 
 @app.route('/cadastrar-imagem', methods=['POST'])
 def cadastrar_imagem():
@@ -132,4 +149,4 @@ def deletar_noticia():
     return jsonify({'status': True, 'mensagem': f'Notícia com identificador {dados["idNoticia"]} deletada com sucesso.'})
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)

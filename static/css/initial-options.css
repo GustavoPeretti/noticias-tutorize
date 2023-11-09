@@ -1,0 +1,41 @@
+#initial-options section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+}
+
+#initial-options section .card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    max-width: 25%;
+    padding: 1em;
+    padding-block: 2em;
+    border: 2px white solid;
+    color: white;
+    text-decoration: none;
+}
+
+#initial-options section .card span {
+    font-size: 6em;
+}
+
+#initial-options section .card:nth-child(even) span {
+    color: #ff914d;
+}
+
+#initial-options section .card:nth-child(odd) span {
+    color: #2576be;
+}
+
+#initial-options section .card h2 {
+    font-size: 2em;
+}
+
+#initial-options section .card p {
+    font-size: 1.2em;
+    text-indent: 1em;
+    text-align: justify;
+}
