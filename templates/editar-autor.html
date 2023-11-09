@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorize - Autores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <main>
+        <div id="edicao-autor">
+            <h1>Autor: {{ autor[0]['nome'] }}</h1>
+            <article id="info-autor">
+                <section>
+                    <label for="nome">Nome: </label>
+                    <input type="text" name="nome" value="{{ autor[0]['nome'] }}">
+                    <button class="salvar">Salvar</button>
+                </section>
+            </article>
+        </div>
+    </main>
+    <script>
+        function salvarAutor() {
+            let nome = document.getElementsByName('nome')[0];
+
+            fetch('/')
+        }
+    </script>
+</body>
+</html>

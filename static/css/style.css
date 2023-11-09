@@ -1,12 +1,17 @@
 @import url(fonts.css);
 @import url(banner.css);
 @import url(initial-options.css);
+@import url(autores.css);
 
 body {
     margin: 0;
     background-color: black;
     font-family: 'IBM Plex Sans', sans-serif;
     color: white;
+}
+
+h1 {
+    text-align: center;
 }
 
 .default-margin {

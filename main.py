@@ -17,16 +17,19 @@ def index():
 
 @app.route('/noticias', methods=['GET'])
 def noticias():
-    return render_template('index.html')
+    return render_template('noticias.html')
 
 @app.route('/autores', methods=['GET'])
 def autores():
-    return render_template('index.html')
+    return render_template('autores.html', autores=consultar('SELECT * FROM autores;'))
+
+@app.route('/autores/<int:idautor>')
+def pagina_autor(idautor):
+    return render_template('editar-autor.html', autor=consultar('SELECT * FROM autores WHERE id = %s;', (idautor,)))
 
 @app.route('/imagens', methods=['GET'])
 def imagens():
-    return render_template('index.html')
-
+    return render_template('imagens.html')
 
 @app.route('/cadastrar-imagem', methods=['POST'])
 def cadastrar_imagem():

@@ -16,25 +16,19 @@
         </div>
     </header>
     <main>
-        <article id="initial-options">
+        <h1>Autores</h1>
+        <article id="autores">
             <section class="default-margin">
-                <a href="/autores" class="card">
-                    <span class="material-symbols-outlined">person</span>
-                    <h2>Autores</h2>
-                    <p>Criar, atualizar, deletar e gerenciar autores da página de notícias do Tutorize.</p>
-                </a>
-
-                <a href="/noticias" class="card">
-                    <span class="material-symbols-outlined">news</span>
-                    <h2>Notícias</h2>
-                    <p>Criar, atualizar, deletar e gerenciar notícias da página de notícias do Tutorize.</p>
-                </a>
-
-                <a href="/imagens" class="card">
-                    <span class="material-symbols-outlined">image</span>
-                    <h2>Imagens</h2>
-                    <p>Criar, atualizar, deletar e gerenciar imagens da página de notícias do Tutorize.</p>
-                </a>
+                <ul>
+                    {% for autor in autores %} 
+                        <li>
+                            <span>
+                                {{ autor['nome'] }}
+                            </span>
+                            <a href="/autores/{{ autor['id'] }}"><span class="material-symbols-outlined">edit</span></a>
+                        </li>
+                    {% endfor %} 
+                </ul>
             </section>
         </article>
     </main>
