@@ -8,7 +8,8 @@ CREATE TABLE imagens (
 );
 
 CREATE TABLE autores (
-    nome VARCHAR(80) PRIMARY KEY 
+	id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(80) NOT NULL
 );
 
 CREATE TABLE noticias (
@@ -19,13 +20,13 @@ CREATE TABLE noticias (
     data_publicacao DATETIME NOT NULL,
     data_atualizacao DATETIME,
     corpo VARCHAR(4000) NOT NULL,
-    FOREIGN KEY (id_imagem) REFERENCES `imagens` (`id`)
+    FOREIGN KEY (id_imagem) REFERENCES `imagens` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE noticias_autores (
     id_noticia INT NOT NULL,
-    nome_autor VARCHAR(80) NOT NULL,
-    FOREIGN KEY (id_noticia) REFERENCES `noticias` (`id`),
-    FOREIGN KEY (nome_autor) REFERENCES `autores` (`nome`),
-    PRIMARY KEY (id_noticia, nome_autor)
+    id_autor INT NOT NULL,
+    FOREIGN KEY (id_noticia) REFERENCES `noticias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (id_autor) REFERENCES `autores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+    PRIMARY KEY (id_noticia, id_autor)
 );
