@@ -17,16 +17,28 @@
                     <label for="nome">Nome: </label>
                     <input type="text" name="nome" value="{{ autor[0]['nome'] }}">
                     <button class="salvar">Salvar</button>
+                    <a class="voltar" href="/autores"><span class="material-symbols-outlined">arrow_back</span></a>
                 </section>
             </article>
         </div>
     </main>
     <script>
         function salvarAutor() {
-            let nome = document.getElementsByName('nome')[0];
-
-            fetch('/')
+            fetch('/atualizar-autor', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idAutor: parseInt("{{ autor[0]['id'] }}"),
+                    nome: document.getElementsByName('nome')[0].value
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.reload();})
+                .catch(erro => alert('Houve um erro ao atualizar o autor. Tente novamente.'));
         }
+
+        document.querySelector('.salvar').addEventListener('click', salvarAutor);
     </script>
 </body>
 </html>

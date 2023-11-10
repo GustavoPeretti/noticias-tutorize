@@ -34,6 +34,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    padding: 2em;
 }
 
 #edicao-autor h1 {
@@ -64,4 +65,12 @@
 
 #edicao-autor section .salvar:active {
     background-color: #1f6099;
+}
+
+.voltar {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    margin: 0 auto;   
+    display: block;      
 }
