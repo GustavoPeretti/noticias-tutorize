@@ -23,9 +23,13 @@ def noticias():
 def autores():
     return render_template('autores.html', autores=consultar('SELECT * FROM autores;'))
 
-@app.route('/autores/<int:idautor>')
+@app.route('/autores/<int:idautor>', methods=['GET'])
 def pagina_autor(idautor):
     return render_template('editar-autor.html', autor=consultar('SELECT * FROM autores WHERE id = %s;', (idautor,)))
+
+@app.route('/autores/novo', methods=['GET'])
+def novo_autor():
+    return render_template('cadastrar-autor.html')
 
 @app.route('/imagens', methods=['GET'])
 def imagens():

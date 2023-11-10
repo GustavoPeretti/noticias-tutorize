@@ -74,3 +74,11 @@
     margin: 0 auto;   
     display: block;      
 }
+
+.novo-autor {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    margin: 0 auto;
+    display: block;
+}

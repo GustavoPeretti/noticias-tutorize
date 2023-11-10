@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorize - Autores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <main>
+        <div id="edicao-autor">
+            <h1>Novo autor</h1>
+            <article id="info-autor">
+                <section>
+                    <label for="nome">Nome: </label>
+                    <input type="text" name="nome">
+                    <button class="salvar">Cadastrar</button>
+                    <a class="voltar" href="/autores"><span class="material-symbols-outlined">arrow_back</span></a>
+                </section>
+            </article>
+        </div>
+    </main>
+    <script>
+        function cadastrarAutor() {
+            fetch('/cadastrar-autor', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    autor: document.getElementsByName('nome')[0].value
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.reload();})
+                .catch(erro => alert('Houve um erro ao cadastrar o autor. Tente novamente.'));
+        }
+
+        document.querySelector('.salvar').addEventListener('click', cadastrarAutor);
+    </script>
+</body>
+</html>
