@@ -17,7 +17,10 @@
                     <label for="nome">Nome: </label>
                     <input type="text" name="nome" value="{{ autor[0]['nome'] }}">
                     <button class="salvar">Salvar</button>
-                    <a class="voltar" href="/autores"><span class="material-symbols-outlined">arrow_back</span></a>
+                    <div class="botoes">
+                        <a class="voltar" href="/autores"><span class="material-symbols-outlined">arrow_back</span></a>
+                        <button class="excluir"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
                 </section>
             </article>
         </div>
@@ -35,10 +38,25 @@
                 })})
                 .then(resposta => resposta.json())
                 .then(dados => {alert(dados.mensagem); window.location.reload();})
-                .catch(erro => alert('Houve um erro ao atualizar o autor. Tente novamente.'));
+                .catch(erro => alert('Houve um erro ao tentar atualizar o autor. Tente novamente.'));
+        }
+
+        function excluirAutor() {
+            fetch('/deletar-autor', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idAutor: parseInt("{{ autor[0]['id'] }}")
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.href= '/autores';})
+                .catch(erro => alert('Houve um erro ao tentar excluir o autor. Tente novamente.'));
         }
 
         document.querySelector('.salvar').addEventListener('click', salvarAutor);
+        document.querySelector('.excluir').addEventListener('click', excluirAutor);
     </script>
 </body>
 </html>

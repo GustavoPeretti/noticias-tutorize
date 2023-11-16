@@ -93,14 +93,16 @@ def atualizar_autor():
 def deletar_autor():
     dados = request.get_json()
 
+    print(dados)
+
     if not ('idAutor' in dados):
         return jsonify({'status': False, 'mensagem': 'Parâmetro obrigatório não informado: idAutor.'})
-    if dados['idAutor'] != int:
+    if type(dados['idAutor']) != int:
         return jsonify({'status': False, 'mensagem': 'Os dados foram recebidos em formato inválido.'})
 
     consultar('DELETE FROM autores WHERE id = %s;', (dados['idAutor'],))
 
-    return jsonify({'status': True, 'mensagem': f'Autor com identificador {dados["idAutor"]} deletado com sucesso.'})
+    return jsonify({'status': True, 'mensagem': f'Autor com identificador "{dados["idAutor"]}" deletado com sucesso.'})
 
 @app.route('/cadastrar-noticia', methods=['POST'])
 def cadastrar_noticia():

@@ -3,7 +3,10 @@
     display: flex;
     flex-direction: column;
     font-size: 1.5em;
-    margin: 0 10em;
+    margin: 0 auto;
+    padding: 0;
+    min-width: 25%;
+    max-width: 15em;
 }
 
 #autores section ul li {
@@ -24,6 +27,25 @@
     text-decoration: none;
 }
 
+#autores section .novo-autor {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    margin: 0 auto;
+    display: block;
+}
+
+#autores .botoes {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+#autores .botoes a {
+    color: white;
+    text-decoration: none;
+}
+
 #edicao-autor {
     position: absolute;
     top: 50%;
@@ -35,6 +57,31 @@
     align-items: center;
     flex-direction: column;
     padding: 2em;
+}
+
+#edicao-autor .botoes a {
+    color: white;
+    text-decoration: none;
+}
+
+#edicao-autor .botoes {
+    display: flex;
+    justify-content: space-around;
+}
+
+#edicao-autor .botoes button {
+    background-color: red;
+    border: none;
+    border-radius: 1em;
+    width: 2.75em;
+    height: 2.25em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#edicao-autor .botoes button:active {
+    background-color: rgb(168, 0, 0);
 }
 
 #edicao-autor h1 {
@@ -67,18 +114,8 @@
     background-color: #1f6099;
 }
 
-.voltar {
+#edicao-autor .voltar {
     text-align: center;
     text-decoration: none;
     color: white;
-    margin: 0 auto;   
-    display: block;      
-}
-
-.novo-autor {
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    margin: 0 auto;
-    display: block;
 }
