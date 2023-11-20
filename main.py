@@ -150,7 +150,7 @@ def deletar_noticia():
 
     if not ('idNoticia' in dados):
         return jsonify({'status': False, 'mensagem': 'Parâmetro obrigatório não informado: idNoticia.'})
-    if dados['idNoticia'] != int:
+    if type(dados['idNoticia']) != int:
         return jsonify({'status': False, 'mensagem': 'Os dados foram recebidos em formato inválido.'})
 
     consultar('DELETE FROM noticias WHERE id = %s;', (dados['idNoticia'],))
