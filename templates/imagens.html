@@ -16,26 +16,29 @@
         </div>
     </header>
     <main>
-        <article id="autores">
+        <article id="imagens">
             <div class="botoes">
                 <a class="voltar" href="/"><span class="material-symbols-outlined">arrow_back</span></a>
             </div>
             <h1>Autores</h1>
             <section class="default-margin">
                 <ul>
-                    {% for autor in autores %} 
+                    {% for imagem in imagens %} 
                         <li>
-                            <span>
-                                {{ autor['nome'] }}
-                            </span>
-                            <a href="/autores/{{ autor['id'] }}"><span class="material-symbols-outlined">edit</span></a>
+                            <img src="data:image;base64,{{ imagem['imagem'] }}" alt="">
+                            <button class="excluir" onclick="excluirImagem({{ imagem['id'] }})"><span class="material-symbols-outlined">delete</span></button>
                         </li>
                     {% endfor %} 
                 </ul>
-                <a class="novo-autor" href="/autores/novo"><span class="material-symbols-outlined">add</span></a>
+                <a class="nova-imagem" href="/imagens/novo"><span class="material-symbols-outlined">add</span></a>
             </section>
         </article>
     </main>
+    <script>
+        function excluirImagem(id) {
+
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ url_for('static', filename='js/particles-init.js') }}"></script>
 </body>

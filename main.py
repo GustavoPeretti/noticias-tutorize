@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template
 from database import consultar
+import base64
 
 app = Flask(__name__)
 
@@ -33,7 +34,8 @@ def novo_autor():
 
 @app.route('/imagens', methods=['GET'])
 def imagens():
-    return render_template('imagens.html')
+    print(consultar('SELECT * FROM imagens;'))
+    return render_template('imagens.html', imagens=[{'id': i['id'], 'imagem': str(base64.b64encode(i['imagem']))[2:-1]} for i in consultar('SELECT * FROM imagens;')])
 
 @app.route('/cadastrar-imagem', methods=['POST'])
 def cadastrar_imagem():
