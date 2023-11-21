@@ -39,6 +39,8 @@ def imagens():
 
 @app.route('/cadastrar-imagem', methods=['POST'])
 def cadastrar_imagem():
+    print(request.files)
+
     if not 'imagem' in request.files:
         return jsonify({'status': False, 'mensagem': 'Parâmetro obrigatório não informado: imagem.'})
     
@@ -54,7 +56,7 @@ def deletar_imagem():
 
     if not ('idImagem' in dados):
         return jsonify({'status': False, 'mensagem': 'Parâmetro obrigatório não informado: idImagem.'})
-    if dados['idImagem'] != int:
+    if type(dados['idImagem']) != int:
         return jsonify({'status': False, 'mensagem': 'Os dados foram recebidos em formato inválido.'})
 
     consultar('DELETE FROM imagens WHERE id = %s', (dados['idImagem'],))

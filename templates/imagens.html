@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorize - Autores</title>
+    <title>Tutorize - Imagens</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
@@ -20,23 +20,50 @@
             <div class="botoes">
                 <a class="voltar" href="/"><span class="material-symbols-outlined">arrow_back</span></a>
             </div>
-            <h1>Autores</h1>
+            <h1>Imagens</h1>
             <section class="default-margin">
-                <ul>
+                <ul style="display: flex; flex-direction: column; align-items: center; gap: 1em;">
                     {% for imagem in imagens %} 
                         <li>
-                            <img src="data:image;base64,{{ imagem['imagem'] }}" alt="">
-                            <button class="excluir" onclick="excluirImagem({{ imagem['id'] }})"><span class="material-symbols-outlined">delete</span></button>
+                            <span>{{ imagem['id'] }}</span>
+                            <img width="250" src="data:image;base64,{{ imagem['imagem'] }}" alt="">
+                            <button class="delete" onclick="excluirImagem({{ imagem['id'] }})"><span class="material-symbols-outlined">delete</span></button>
                         </li>
                     {% endfor %} 
                 </ul>
-                <a class="nova-imagem" href="/imagens/novo"><span class="material-symbols-outlined">add</span></a>
+                <div style="margin-top: 1em; display: flex; justify-content: center;">
+                    <input type="file" name="" class="input-imagem">
+                </div>
+                <a style="cursor: pointer;" class="nova-imagem" onclick="novaImagem()"><span class="material-symbols-outlined">add</span></a>
             </section>
         </article>
     </main>
     <script>
         function excluirImagem(id) {
+            fetch('/deletar-imagem', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idImagem: id
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.reload();})
+                .catch(erro => alert('Houve um erro ao tentar excluir a imagem. Tente novamente.'));
+        }
 
+        function novaImagem() {
+            let dados = new FormData();
+            dados.append('imagem', document.querySelector('.input-imagem').files[0], 'file')
+            console.log(dados)
+
+            fetch('/cadastrar-imagem', {
+                method: 'POST',
+                body: dados})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.reload();})
+                .catch(erro => alert('Houve um erro ao tentar cadastrar a imagem. Tente novamente.'));
         }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>

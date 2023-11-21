@@ -3,6 +3,7 @@
 @import url(initial-options.css);
 @import url(autores.css);
 @import url(imagens.css);
+@import url(icons.css);
 
 body {
     margin: 0;

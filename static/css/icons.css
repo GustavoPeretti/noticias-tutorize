@@ -1,0 +1,14 @@
+.delete {
+    background-color: red;
+    border: none;
+    border-radius: 1em;
+    width: 2.75em;
+    height: 2.25em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete:active {
+    background-color: rgb(168, 0, 0);
+}
