@@ -32,3 +32,9 @@ CREATE TABLE noticias_autores (
     FOREIGN KEY (id_autor) REFERENCES `autores` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (id_noticia, id_autor)
 );
+
+CREATE TABLE newsletter (
+	email VARCHAR(40) PRIMARY KEY,
+    nome VARCHAR(40) NOT NULL,
+    token VARCHAR(22) NOT NULL
+);

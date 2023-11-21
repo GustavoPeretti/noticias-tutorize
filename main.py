@@ -164,7 +164,7 @@ def cadastrar_noticia():
         msg = MIMEMultipart()
         msg['From'] = login
         msg['Subject'] = dados['manchete']
-        msg.attach(MIMEText(f'<h1 style="text-align=\'center\'">{dados["manchete"]}</h1><br><p>Olá, {p["nome"]}!</p><br><p>Notificamos a publicação da notícia <a href="http://localhost/noticias/">{dados["manchete"]}</a></p><br><p>{dados["descricao"]}</p>', 'html'))
+        msg.attach(MIMEText(f'<h1 style="text-align=\'center\'">{dados["manchete"]}</h1><br><p>Olá, {p["nome"]}!</p><br><p>Notificamos a publicação da notícia <a href="http://localhost/noticias/">{dados["manchete"]}</a></p><br><p>{dados["descricao"]}</p><br><a href="http://localhost/remover-cadastro?token={p["token"]}">Cancelar notificações</a>', 'html'))
         msg['To'] = p['email']
         server.sendmail(msg['From'], msg['To'], msg.as_string())
 
