@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorize - Autores</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
+</head>
+<body>
+    <main>
+        <div id="edicao-noticia">
+            <h1>Notícia: {{ noticia[0]['manchete'] }}</h1>
+            <article id="info-autor">
+                <section>
+                    <label for="manchete">Manchete: </label>
+                    <input type="text" name="manchete" value="{{ noticia[0]['manchete'] }}">
+                    <label for="descricao">Descrição: </label>
+                    <input type="text" name="descricao" value="{{ noticia[0]['descricao'] }}">
+                    <div class="selecao-imagem">
+                        <label style="align-self: baseline;" for="imagem">Imagem: </label>
+                        <img style="margin-top: 1em;" width="180" src="data:image;base64,{{ noticia[0]['imagem'] }}" alt="">
+                        <select style="margin-top: 1em;" onchange="atualizarImagem(this.value)" value="{{ noticia[0]['id_imagem'] }}" name="imagem">
+                            {% for imagem in imagens %} 
+                                <option value="{{ imagem['id'] }}">{{ imagem['id'] }}</option>
+                            {% endfor %} 
+                        </select>
+                    </div>
+                    <div class="selecao-autor">
+                        <label for="autores">Autor: </label>
+                        <select style="margin-top: 1em;" value="{{ noticia[0]['id_autores'][0] }}" name="autores">
+                            {% for autor in autores %} 
+                                <option value="{{ autor['id'] }}">{{ autor['nome'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <label for="corpo">Corpo:</label>
+                    <textarea name="corpo" cols="30" rows="10">{{ noticia[0]['corpo'] }}</textarea>
+                    <button class="salvar">Salvar</button>
+                    <div class="botoes">
+                        <a class="voltar" href="/noticias"><span class="material-symbols-outlined">arrow_back</span></a>
+                        <button class="delete"><span class="material-symbols-outlined">delete</span></button>
+                    </div>
+                </section>
+            </article>
+        </div>
+    </main>
+    <script>
+        function atualizarImagem(id) {
+            fetch('/blob-imagem', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idImagem: parseInt(id)
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {console.log(dados); document.querySelector('.selecao-imagem img').src = 'data:image;base64,' + dados.blob;})
+                .catch(erro => alert('Houve um erro ao tentar carregar a imagem. Tente novamente.'));
+        }
+
+        function atualizarNoticia() {
+            fetch('/atualizar-noticia', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idNoticia: parseInt("{{ noticia[0]['id'] }}"),
+                    manchete: document.getElementsByName('manchete')[0].value,
+                    descricao: document.getElementsByName('descricao')[0].value,
+                    idImagem: parseInt(document.getElementsByName('imagem')[0].value),
+                    autores: [parseInt(document.getElementsByName('autores')[0].value)],
+                    corpo: document.getElementsByName('corpo')[0].value
+
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.reload();})
+                .catch(erro => alert('Houve um erro ao tentar atualizar. Tente novamente.'));
+        }
+
+        function deletarNoticia() {
+            fetch('/deletar-noticia', {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    idNoticia: parseInt("{{ noticia[0]['id'] }}")
+                })})
+                .then(resposta => resposta.json())
+                .then(dados => {alert(dados.mensagem); window.location.href='/noticias';})
+                .catch(erro => alert('Houve um erro ao tentar deletar a notícia. Tente novamente.'));
+        }
+
+        document.querySelector('.salvar').addEventListener('click', atualizarNoticia);
+        document.querySelector('.delete').addEventListener('click', deletarNoticia);
+    </script>
+</body>
+</html>

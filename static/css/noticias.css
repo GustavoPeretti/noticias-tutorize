@@ -1,0 +1,130 @@
+#noticias section ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    font-size: 1.5em;
+    margin: 0 auto;
+    padding: 0;
+    min-width: 25%;
+    max-width: 15em;
+}
+
+#noticias section ul li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1em;
+    width: 100%;
+}
+
+#noticias section ul li a {
+    color: black;
+    background-color: white;
+    border-radius: 50%;
+    width: 1.2em;
+    height: 1.2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#noticias section .nova-noticia {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    margin: 1em auto;
+    display: block;
+}
+
+#noticias .botoes {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+#noticias .botoes a {
+    color: white;
+    text-decoration: none;
+}
+
+#edicao-noticia {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 2px white solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 2em;
+}
+
+#edicao-noticia .botoes a {
+    color: white;
+    text-decoration: none;
+}
+
+#edicao-noticia .botoes {
+    display: flex;
+    justify-content: space-around;
+}
+
+#edicao-noticia .botoes button {
+    background-color: red;
+    border: none;
+    border-radius: 1em;
+    width: 2.75em;
+    height: 2.25em;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#edicao-noticia .botoes button:active {
+    background-color: rgb(168, 0, 0);
+}
+
+#edicao-noticia h1 {
+    display: inline;
+}
+
+#edicao-noticia section {
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+#edicao-noticia section label {
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+#edicao-noticia section .salvar {
+    display: inline;
+    align-self: center;
+    background-color: #2576be;
+    font-size: 1.1em;
+    border-radius: 1.2em;
+    padding: 0.5em;
+    color: white;
+    border: none;
+}
+
+#edicao-noticia section .salvar:active {
+    background-color: #1f6099;
+}
+
+#edicao-noticia .voltar {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+#edicao-noticia .selecao-imagem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+

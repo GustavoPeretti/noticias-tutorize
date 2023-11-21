@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutorize - Notícias</title>
+    <title>Tutorize - Imagens</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" type="image/x-icon">
@@ -16,28 +16,28 @@
         </div>
     </header>
     <main>
-        <article id="initial-options">
+        <article id="noticias">
+            <div class="botoes">
+                <a class="voltar" href="/"><span class="material-symbols-outlined">arrow_back</span></a>
+            </div>
+            <h1>Notícias</h1>
             <section class="default-margin">
-                <a href="/autores" class="card">
-                    <span class="material-symbols-outlined">person</span>
-                    <h2>Autores</h2>
-                    <p>Criar, atualizar, deletar e gerenciar autores da página de notícias do Tutorize.</p>
-                </a>
-
-                <a href="/noticias" class="card">
-                    <span class="material-symbols-outlined">news</span>
-                    <h2>Notícias</h2>
-                    <p>Criar, atualizar, deletar e gerenciar notícias da página de notícias do Tutorize.</p>
-                </a>
-
-                <a href="/imagens" class="card">
-                    <span class="material-symbols-outlined">image</span>
-                    <h2>Imagens</h2>
-                    <p>Criar, atualizar, deletar e gerenciar imagens da página de notícias do Tutorize.</p>
-                </a>
+                <ul style="display: flex; flex-direction: column; align-items: center; gap: 1em;">
+                    {% for noticia in noticias %} 
+                        <li>
+                            <img width="100" src="data:image;base64,{{ noticia['imagem'] }}" alt="">
+                            <span>{{ noticia['manchete'] }}</span>
+                            <a href="/noticias/{{ noticia['id'] }}"><span class="material-symbols-outlined">edit</span></a>
+                        </li>
+                    {% endfor %} 
+                </ul>
+                <a href="/noticias/nova" class="nova-noticia"><span class="material-symbols-outlined">add</span></a>
             </section>
         </article>
     </main>
+    <script>
+        
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="{{ url_for('static', filename='js/particles-init.js') }}"></script>
 </body>

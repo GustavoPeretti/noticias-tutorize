@@ -7,7 +7,7 @@ app = Flask(__name__)
 validacao = {
     'manchete': lambda x: type(x) == str,
     'descricao': lambda x: type(x) == str,
-    'idImagem': lambda x: type(x) == int and consultar('SELECT 1 FROM imagens WHERE id = %s', (x,)),
+    'idImagem': lambda x: type(x) == int and consultar('SELECT 1 FROM imagens WHERE id = %s;', (x,)),
     'corpo': lambda x: type(x) == str,
     'autores': lambda x: type(x) == list and all([type(a) == int and consultar('SELECT 1 FROM autores WHERE id = %s;', (a,)) for a in x])
 }
@@ -18,7 +18,19 @@ def index():
 
 @app.route('/noticias', methods=['GET'])
 def noticias():
-    return render_template('noticias.html')
+    noticias = consultar('SELECT noticias.*, imagens.imagem, GROUP_CONCAT(autores.id SEPARATOR ", ") AS id_autores, GROUP_CONCAT(autores.nome SEPARATOR ", ") AS nome_autores FROM imagens INNER JOIN noticias INNER JOIN noticias_autores INNER JOIN autores ON imagens.id = noticias.id_imagem AND noticias_autores.id_autor = autores.id AND noticias_autores.id_noticia = noticias.id GROUP BY noticias.id;')
+    noticias = [{'id': n['id'], 'manchete': n['manchete'], 'descricao': n['descricao'], 'id_imagem': n['id_imagem'], 'data_publicacao': n['data_publicacao'], 'data_atualizacao': n['data_atualizacao'], 'corpo': n['corpo'], 'imagem': str(base64.b64encode(n['imagem']))[2:-1], 'id_autores': n['id_autores'], 'nome_autores': n['nome_autores']} for n in noticias]
+    return render_template('noticias.html', noticias=noticias)
+
+@app.route('/noticias/<int:idnoticia>', methods=['GET'])
+def pagina_noticia(idnoticia):
+    noticia = consultar('SELECT noticias.*, imagens.imagem, GROUP_CONCAT(autores.id SEPARATOR ", ") AS id_autores, GROUP_CONCAT(autores.nome SEPARATOR ", ") AS nome_autores FROM imagens INNER JOIN noticias INNER JOIN noticias_autores INNER JOIN autores ON imagens.id = noticias.id_imagem AND noticias_autores.id_autor = autores.id AND noticias_autores.id_noticia = noticias.id GROUP BY noticias.id HAVING noticias.id = %s;', idnoticia)
+    noticia = [{'id': n['id'], 'manchete': n['manchete'], 'descricao': n['descricao'], 'id_imagem': n['id_imagem'], 'data_publicacao': n['data_publicacao'], 'data_atualizacao': n['data_atualizacao'], 'corpo': n['corpo'], 'imagem': str(base64.b64encode(n['imagem']))[2:-1], 'id_autores': n['id_autores'], 'nome_autores': n['nome_autores']} for n in noticia]
+    return render_template('editar-noticia.html', noticia=noticia, autores=consultar('SELECT * FROM autores;'), imagens=consultar('SELECT * FROM imagens;'))
+
+@app.route('/noticias/nova', methods=['GET'])
+def nova_noticia():
+    return render_template('cadastrar-noticia.html', autores=consultar('SELECT * FROM autores;'), imagens=consultar('SELECT * FROM imagens;'))
 
 @app.route('/autores', methods=['GET'])
 def autores():
@@ -37,10 +49,22 @@ def imagens():
     print(consultar('SELECT * FROM imagens;'))
     return render_template('imagens.html', imagens=[{'id': i['id'], 'imagem': str(base64.b64encode(i['imagem']))[2:-1]} for i in consultar('SELECT * FROM imagens;')])
 
+@app.route('/blob-imagem', methods=['POST'])
+def blob_imagem():
+    dados = request.get_json()
+
+    if not ('idImagem' in dados):
+        return jsonify({'status': False, 'mensagem': 'Parâmetro obrigatório não informado: idImagem.'})
+    if type(dados['idImagem']) != int:
+        return jsonify({'status': False, 'mensagem': 'Os dados foram recebidos em formato inválido.'})
+
+    imagem = consultar('SELECT imagem FROM imagens WHERE id = %s', (dados['idImagem'],))[0]['imagem']
+    imagem = str(base64.b64encode(imagem))[2:-1]
+
+    return jsonify({'status': True, 'mensagem': f'Imagem "{dados["idImagem"]}" retornada com sucesso.', 'blob': imagem})
+
 @app.route('/cadastrar-imagem', methods=['POST'])
 def cadastrar_imagem():
-    print(request.files)
-
     if not 'imagem' in request.files:
         return jsonify({'status': False, 'mensagem': 'Parâmetro obrigatório não informado: imagem.'})
     
@@ -144,7 +168,8 @@ def atualizar_noticia():
         if a in validacao:
             if not validacao[a](dados[a]):
                 return jsonify({'status': False, 'mensagem': 'Os dados foram recebidos em formato inválido.'})
-            consultar('UPDATE noticias SET %s = %s WHERE id = %s', (a, dados[a], dados['idNoticia']))
+            if a != 'autores':
+                consultar(f'UPDATE noticias SET {"id_imagem" if a == "idImagem" else a} = %s WHERE id = %s;', (dados[a], dados['idNoticia']))
 
     return jsonify({'status': True, 'mensagem': f'Notícia com identificador {dados["idNoticia"]} atualizada com sucesso.'})
 

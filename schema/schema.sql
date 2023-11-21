@@ -1,3 +1,5 @@
+DROP DATABASE tutorize;
+
 CREATE DATABASE tutorize;
 
 USE tutorize;
