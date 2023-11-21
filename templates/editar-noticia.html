@@ -57,7 +57,7 @@
                     idImagem: parseInt(id)
                 })})
                 .then(resposta => resposta.json())
-                .then(dados => {console.log(dados); document.querySelector('.selecao-imagem img').src = 'data:image;base64,' + dados.blob;})
+                .then(dados => {document.querySelector('.selecao-imagem img').src = 'data:image;base64,' + dados.blob;})
                 .catch(erro => alert('Houve um erro ao tentar carregar a imagem. Tente novamente.'));
         }
 

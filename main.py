@@ -1,6 +1,14 @@
 from flask import Flask, request, jsonify, render_template
 from database import consultar
 import base64
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+host = 'smtp.gmail.com'
+port = '587'
+login = 'tutorizeoficial@gmail.com'
+pword = 'xkwb jtzk crce wcve'
 
 app = Flask(__name__)
 
@@ -146,6 +154,19 @@ def cadastrar_noticia():
 
     for autor in dados['autores']:
         consultar('INSERT IGNORE INTO noticias_autores VALUES ((SELECT MAX(id) FROM noticias), %s);', (autor))
+
+    server = smtplib.SMTP(host, port)
+    server.ehlo()
+    server.starttls()
+    server.login(login, pword)
+
+    for p in consultar('SELECT * FROM newsletter;'):
+        msg = MIMEMultipart()
+        msg['From'] = login
+        msg['Subject'] = dados['manchete']
+        msg.attach(MIMEText(f'<h1 style="text-align=\'center\'">{dados["manchete"]}</h1><br><p>Olá, {p["nome"]}!</p><br><p>Notificamos a publicação da notícia <a href="http://localhost/noticias/">{dados["manchete"]}</a></p><br><p>{dados["descricao"]}</p>', 'html'))
+        msg['To'] = p['email']
+        server.sendmail(msg['From'], msg['To'], msg.as_string())
 
     return jsonify({'status': True, 'mensagem': f'Notícia "{dados["manchete"]}" cadastrada com sucesso.'})
 
